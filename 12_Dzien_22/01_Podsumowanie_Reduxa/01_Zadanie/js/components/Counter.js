@@ -1,17 +1,18 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   startCounterAsync,
   stopCounterAsync,
-  addResult
-} from '../redux/actions';
+  addResult,
+  removeNumber,
+} from "../redux/actions";
 
 function Counter() {
   const dispatch = useDispatch();
   const { isCounting, value, intervalId } = useSelector(
-    state => state.counter
+    (state) => state.counter
   );
-  const { results } = useSelector(state => state.results);
+  const { results } = useSelector((state) => state.results);
 
   const handleStart = () => {
     dispatch(startCounterAsync());
@@ -24,7 +25,9 @@ function Counter() {
   const handleAddResult = () => {
     dispatch(addResult(value));
   };
-
+  const handleRemoveItem = (index) => {
+    dispatch(removeNumber(index));
+  };
   return (
     <div>
       <div>
@@ -41,7 +44,10 @@ function Counter() {
           <button onClick={handleAddResult}>Zapisz</button>
           <ul>
             {results.map((result, index) => (
-              <li key={index}>{result}</li>
+              <li key={index}>
+                {result}
+                <button onClick={() => handleRemoveItem(index)}>-</button>
+              </li>
             ))}
           </ul>
         </div>
